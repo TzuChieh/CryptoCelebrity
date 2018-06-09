@@ -21,12 +21,18 @@ contract CelebrityDatabase
     mapping (uint    => address) public celebrityToBoss;
     mapping (address => uint   ) public bossCelebrityCount;
 
-    function _createCelebrity(string _name, uint _dna) internal
+    function _createCelebrity(string _name, uint _dna) internal returns (uint _id)
     {
-        uint id = celebrities.push(Celebrity(_name, _dna, 0, 0)) - 1;
-        celebrityToBoss[id] = msg.sender;
+        _id = celebrities.push(Celebrity(_name, _dna, 0, 0)) - 1;
+        celebrityToBoss[_id] = msg.sender;
         bossCelebrityCount[msg.sender]++;
 
-        emit CelebrityCreated(id, _name, _dna);
+        emit CelebrityCreated(_id, _name, _dna);
+    }
+
+    function _generateRandomDna(string _string) internal pure returns (uint)
+    {
+        uint rand = uint(keccak256(_string));
+        return rand;
     }
 }

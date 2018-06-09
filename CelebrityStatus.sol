@@ -12,56 +12,56 @@ contract CelebrityStatus is CelebrityDatabase
     event ReputationChanged(uint id, uint from, uint to);
     event PowerChanged(uint id, uint from, uint to);
 
-    function _increaseReputation(uint id, uint amount) internal
+    function _increaseReputation(uint _id, uint _amount) internal
     {
-        Celebrity storage celebrity = celebrities[id];
+        Celebrity storage celebrity = celebrities[_id];
 
         uint oldReputation   = celebrity.reputation;
-        uint newReputation   = _boundedAdd(oldReputation, amount);
+        uint newReputation   = _boundedAdd(oldReputation, _amount);
         celebrity.reputation = newReputation;
 
-        emit ReputationChanged(id, oldReputation, newReputation);
+        emit ReputationChanged(_id, oldReputation, newReputation);
     }
 
-    function _decreaseReputation(uint id, uint amount) internal
+    function _decreaseReputation(uint _id, uint _amount) internal
     {
-        Celebrity storage celebrity = celebrities[id];
+        Celebrity storage celebrity = celebrities[_id];
 
         uint oldReputation   = celebrity.reputation;
-        uint newReputation   = _boundedSub(oldReputation, amount);
+        uint newReputation   = _boundedSub(oldReputation, _amount);
         celebrity.reputation = newReputation;
 
-        emit ReputationChanged(id, oldReputation, newReputation);
+        emit ReputationChanged(_id, oldReputation, newReputation);
     }
 
-    function _increasePower(uint id, uint amount) internal
+    function _increasePower(uint _id, uint _amount) internal
     {
-        Celebrity storage celebrity = celebrities[id];
+        Celebrity storage celebrity = celebrities[_id];
 
         uint oldPower   = celebrity.power;
-        uint newPower   = _boundedAdd(oldPower, amount);
+        uint newPower   = _boundedAdd(oldPower, _amount);
         celebrity.power = newPower;
 
-        emit PowerChanged(id, oldPower, newPower);
+        emit PowerChanged(_id, oldPower, newPower);
     }
 
-    function _decreasePower(uint id, uint amount) internal
+    function _decreasePower(uint _id, uint _amount) internal
     {
-        Celebrity storage celebrity = celebrities[id];
+        Celebrity storage celebrity = celebrities[_id];
 
         uint oldPower   = celebrity.power;
-        uint newPower   = _boundedSub(oldPower, amount);
+        uint newPower   = _boundedSub(oldPower, _amount);
         celebrity.power = newPower;
 
-        emit PowerChanged(id, oldPower, newPower);
+        emit PowerChanged(_id, oldPower, newPower);
     }
 
-    function _boundedAdd(uint a, uint b) internal pure returns (uint)
+    function _boundedAdd(uint _a, uint _b) internal pure returns (uint)
     {
-        uint b_max = UINT_MAX - a;
-        if(b <= b_max)
+        uint b_max = UINT_MAX - _a;
+        if(_b <= b_max)
         {
-            return a + b;
+            return _a + _b;
         }
         else
         {
@@ -69,12 +69,12 @@ contract CelebrityStatus is CelebrityDatabase
         }
     }
 
-    function _boundedSub(uint a, uint b) internal pure returns (uint)
+    function _boundedSub(uint _a, uint _b) internal pure returns (uint)
     {
-        uint b_max = a - UINT_MIN;
-        if(b <= b_max)
+        uint b_max = _a - UINT_MIN;
+        if(_b <= b_max)
         {
-            return a - b;
+            return _a - _b;
         }
         else
         {
