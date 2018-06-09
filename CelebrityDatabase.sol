@@ -14,6 +14,16 @@ contract CelebrityDatabase
         uint   power;
     }
 
+    enum EDnaFragment
+    {
+        ELEMENTAL,
+        GENDER,
+        HEIGHT,
+        FACE,
+        HAIR_COLOR,
+        EYE_COLOR
+    }
+
     event CelebrityCreated(uint id, string name, uint dna);
     
     Celebrity[] public celebrities;
@@ -30,7 +40,20 @@ contract CelebrityDatabase
         emit CelebrityCreated(_id, _name, _dna);
     }
 
-    function _generateRandomDna(string _string) internal pure returns (uint)
+    function getDnaFragment(uint _dna, EDnaFragment _type) public pure returns (uint8)
+    {
+        uint shiftedDna = _dna / (2 ** (uint(_type) * 8));
+        return uint8(shiftedDna & 0xFF);
+    }
+
+    function getInjectedDna(uint _dna, uint8 _dnaFragment, EDnaFragment _type) public pure returns (uint _injectedDna)
+    {
+        uint multiplier = 2 ** (uint(_type) * 8);
+        uint clearedDna = _dna & ~(0xFF * multiplier);
+        _injectedDna = clearedDna | (_dnaFragment * multiplier);
+    }
+
+    function generateRandomDna(string _string) internal pure returns (uint)
     {
         uint rand = uint(keccak256(_string));
         return rand;
