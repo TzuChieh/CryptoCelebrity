@@ -10,6 +10,7 @@ contract CelebrityStatus is CelebrityDatabase
     uint    constant UINT_MAX    = UINT256_MAX;
 
     event ReputationChanged(uint id, uint from, uint to);
+    event PowerChanged(uint id, uint from, uint to);
 
     function _increaseReputation(uint id, uint amount) internal
     {
@@ -31,6 +32,28 @@ contract CelebrityStatus is CelebrityDatabase
         celebrity.reputation = newReputation;
 
         emit ReputationChanged(id, oldReputation, newReputation);
+    }
+
+    function _increasePower(uint id, uint amount) internal
+    {
+        Celebrity storage celebrity = celebrities[id];
+
+        uint oldPower   = celebrity.power;
+        uint newPower   = _boundedAdd(oldPower, amount);
+        celebrity.power = newPower;
+
+        emit PowerChanged(id, oldPower, newPower);
+    }
+
+    function _decreasePower(uint id, uint amount) internal
+    {
+        Celebrity storage celebrity = celebrities[id];
+
+        uint oldPower   = celebrity.power;
+        uint newPower   = _boundedSub(oldPower, amount);
+        celebrity.power = newPower;
+
+        emit PowerChanged(id, oldPower, newPower);
     }
 
     function _boundedAdd(uint a, uint b) internal pure returns (uint)
