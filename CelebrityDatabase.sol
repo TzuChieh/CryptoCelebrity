@@ -1,10 +1,12 @@
 pragma solidity ^0.4.24;
 
+import "./ThirdParty/Ownable.sol";
+
 /*
     Database recording attributes of celebrities. Supports basic data 
     manipulating functions.
 */
-contract CelebrityDatabase
+contract CelebrityDatabase is Ownable
 {
     struct Celebrity
     {
