@@ -1,5 +1,9 @@
 pragma solidity ^0.4.24;
 
+/*
+    Database recording attributes of celebrities. Supports basic data 
+    manipulating functions.
+*/
 contract CelebrityDatabase
 {
     struct Celebrity
