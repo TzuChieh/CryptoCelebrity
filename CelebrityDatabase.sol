@@ -33,10 +33,18 @@ contract CelebrityDatabase is Ownable, ERC721Token
 
     mapping (uint    => address) public celebrityToBoss;
     mapping (address => uint   ) public bossCelebrityCount;
+    
+    constructor() 
+        Ownable()
+        ERC721Token("CryptoCelebrity", "CC")
+        internal
+    {}
 
     function _createCelebrity(string _name, uint _dna) internal returns (uint _id)
     {
-        _id = celebrities.push(Celebrity(_name, _dna, 0, 0)) - 1;
+        _id = celebrities.length;
+        _mint(msg.sender, _id);
+        celebrities.push(Celebrity(_name, _dna, 0, 0));
         celebrityToBoss[_id] = msg.sender;
         bossCelebrityCount[msg.sender]++;
 
