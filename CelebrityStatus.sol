@@ -24,53 +24,51 @@ contract CelebrityStatus is CelebrityDatabase
         _;
     }
     
-    function getMobility(uint _id) public view returns (uint _mobility)
+    modifier isReady(uint _id)
     {
-        _mobility = now - celebrities[_id].lastActionTime;
+        require(celebrities[_id].readyTime <= now);
+        _;
     }
 
-    function _increaseReputation(uint _id, uint _amount) internal
+    function _increaseReputation(Celebrity storage _target, uint _amount) internal
     {
-        Celebrity storage celebrity = celebrities[_id];
+        uint oldReputation = _target.reputation;
+        uint newReputation = _boundedAdd(oldReputation, _amount);
+        _target.reputation = newReputation;
 
-        uint oldReputation   = celebrity.reputation;
-        uint newReputation   = _boundedAdd(oldReputation, _amount);
-        celebrity.reputation = newReputation;
-
-        emit ReputationChanged(_id, oldReputation, newReputation);
+        emit ReputationChanged(_target.id, oldReputation, newReputation);
     }
 
-    function _decreaseReputation(uint _id, uint _amount) internal
+    function _decreaseReputation(Celebrity storage _target, uint _amount) internal
     {
-        Celebrity storage celebrity = celebrities[_id];
+        uint oldReputation = _target.reputation;
+        uint newReputation = _boundedSub(oldReputation, _amount);
+        _target.reputation = newReputation;
 
-        uint oldReputation   = celebrity.reputation;
-        uint newReputation   = _boundedSub(oldReputation, _amount);
-        celebrity.reputation = newReputation;
-
-        emit ReputationChanged(_id, oldReputation, newReputation);
+        emit ReputationChanged(_target.id, oldReputation, newReputation);
     }
 
-    function _increasePower(uint _id, uint _amount) internal
+    function _increasePower(Celebrity storage _target, uint _amount) internal
     {
-        Celebrity storage celebrity = celebrities[_id];
+        uint oldPower = _target.power;
+        uint newPower = _boundedAdd(oldPower, _amount);
+        _target.power = newPower;
 
-        uint oldPower   = celebrity.power;
-        uint newPower   = _boundedAdd(oldPower, _amount);
-        celebrity.power = newPower;
-
-        emit PowerChanged(_id, oldPower, newPower);
+        emit PowerChanged(_target.id, oldPower, newPower);
     }
 
-    function _decreasePower(uint _id, uint _amount) internal
+    function _decreasePower(Celebrity storage _target, uint _amount) internal
     {
-        Celebrity storage celebrity = celebrities[_id];
+        uint oldPower = _target.power;
+        uint newPower = _boundedSub(oldPower, _amount);
+        _target.power = newPower;
 
-        uint oldPower   = celebrity.power;
-        uint newPower   = _boundedSub(oldPower, _amount);
-        celebrity.power = newPower;
-
-        emit PowerChanged(_id, oldPower, newPower);
+        emit PowerChanged(_target.id, oldPower, newPower);
+    }
+    
+    function _increaseCooldownTime(Celebrity storage _target, uint _amount) internal
+    {
+        _target.readyTime = _boundedAdd(_target.readyTime, _amount);
     }
 
     function _boundedAdd(uint _a, uint _b) internal pure returns (uint)
