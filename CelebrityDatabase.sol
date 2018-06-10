@@ -30,9 +30,6 @@ contract CelebrityDatabase is Ownable, ERC721Token
     event CelebrityCreated(uint id, string name, uint dna);
     
     Celebrity[] public celebrities;
-
-    mapping (uint    => address) public celebrityToBoss;
-    mapping (address => uint   ) public bossCelebrityCount;
     
     constructor() 
         Ownable()
@@ -45,8 +42,6 @@ contract CelebrityDatabase is Ownable, ERC721Token
         _id = celebrities.length;
         _mint(msg.sender, _id);
         celebrities.push(Celebrity(_name, _dna, 0, 0));
-        celebrityToBoss[_id] = msg.sender;
-        bossCelebrityCount[msg.sender]++;
 
         emit CelebrityCreated(_id, _name, _dna);
     }
