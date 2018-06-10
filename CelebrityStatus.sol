@@ -11,6 +11,18 @@ contract CelebrityStatus is CelebrityDatabase
 
     event ReputationChanged(uint id, uint from, uint to);
     event PowerChanged(uint id, uint from, uint to);
+    
+    modifier isBossOf(address _boss, uint _id)
+    {
+        require(ownerOf(_id) == _boss);
+        _;
+    }
+    
+    modifier hasEnoughPower(uint _id, uint _power)
+    {
+        require(celebrities[_id].power >= _power);
+        _;
+    }
 
     function _increaseReputation(uint _id, uint _amount) internal
     {
