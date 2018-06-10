@@ -19,4 +19,14 @@ contract CelebrityInteraction is CelebrityStatus
          
          emit beatingOccurred(_injurerId, _victimId);
      }
+     
+     function collectGarbage(uint _collectorId) public
+        isBossOf(msg.sender, _collectorId)
+        isReady(_collectorId)
+    {
+        Celebrity storage collector = celebrities[_collectorId];
+        
+        _increaseReputation(collector, 10);
+        _increaseCooldownTime(collector, 30 seconds);
+    }
 }
