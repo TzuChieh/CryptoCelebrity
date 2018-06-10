@@ -10,9 +10,7 @@ contract CelebrityWorld is CelebrityHighLevelAction
     {
         require(msg.value == CELEBRITY_PRICE);
 
-        uint id = _createCelebrity(_name, generateRandomDna(_name));
-        celebrityToBoss[id] = msg.sender;
-        bossCelebrityCount[msg.sender]++;
+        _createCelebrity(_name, generateRandomDna(_name));
     }
 
     function buyPresetCelebrity(string _name, uint8 _presetId) external payable
@@ -21,9 +19,6 @@ contract CelebrityWorld is CelebrityHighLevelAction
 
         uint dna = generateRandomDna(_name);
         dna = getInjectedDna(dna, _presetId, EDnaFragment.FACE);
-
-        uint id = _createCelebrity(_name, dna);
-        celebrityToBoss[id] = msg.sender;
-        bossCelebrityCount[msg.sender]++;
+        _createCelebrity(_name, dna);
     }
 }
