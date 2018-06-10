@@ -23,6 +23,11 @@ contract CelebrityStatus is CelebrityDatabase
         require(celebrities[_id].power >= _power);
         _;
     }
+    
+    function getMobility(uint _id) public view returns (uint _mobility)
+    {
+        _mobility = now - celebrities[_id].lastActionTime;
+    }
 
     function _increaseReputation(uint _id, uint _amount) internal
     {

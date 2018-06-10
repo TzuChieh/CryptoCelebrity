@@ -15,6 +15,7 @@ contract CelebrityDatabase is Ownable, ERC721Token
         uint   dna;
         uint   reputation;
         uint   power;
+        uint   lastActionTime;
     }
 
     enum EDnaFragment
@@ -41,7 +42,7 @@ contract CelebrityDatabase is Ownable, ERC721Token
     {
         _id = celebrities.length;
         _mint(msg.sender, _id);
-        celebrities.push(Celebrity(_name, _dna, 0, 0));
+        celebrities.push(Celebrity(_name, _dna, 0, 0, now));
 
         emit CelebrityCreated(_id, _name, _dna);
     }
