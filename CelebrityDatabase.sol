@@ -1,12 +1,13 @@
 pragma solidity ^0.4.24;
 
 import "./ThirdParty/Ownable.sol";
+import "./ThirdParty/ERC721/ERC721Token.sol";
 
 /*
     Database recording attributes of celebrities. Supports basic data 
     manipulating functions.
 */
-contract CelebrityDatabase is Ownable
+contract CelebrityDatabase is Ownable, ERC721Token
 {
     struct Celebrity
     {
