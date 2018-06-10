@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
-import "./CelebrityDatabase.sol";
+import "./PrincipalDatabase.sol";
 
-contract CelebrityStatus is CelebrityDatabase
+contract PrincipalStatus is PrincipalDatabase
 {
     uint256 constant UINT256_MIN = 0;
     uint256 constant UINT256_MAX = ~uint256(0);
@@ -20,17 +20,17 @@ contract CelebrityStatus is CelebrityDatabase
     
     modifier hasEnoughPower(uint _id, uint _power)
     {
-        require(celebrities[_id].power >= _power);
+        require(principals[_id].power >= _power);
         _;
     }
     
     modifier isReady(uint _id)
     {
-        require(celebrities[_id].readyTime <= now);
+        require(principals[_id].readyTime <= now);
         _;
     }
 
-    function _increaseReputation(Celebrity storage _target, uint _amount) internal
+    function _increaseReputation(Principal storage _target, uint _amount) internal
     {
         uint oldReputation = _target.reputation;
         uint newReputation = _boundedAdd(oldReputation, _amount);
@@ -39,7 +39,7 @@ contract CelebrityStatus is CelebrityDatabase
         emit ReputationChanged(_target.id, oldReputation, newReputation);
     }
 
-    function _decreaseReputation(Celebrity storage _target, uint _amount) internal
+    function _decreaseReputation(Principal storage _target, uint _amount) internal
     {
         uint oldReputation = _target.reputation;
         uint newReputation = _boundedSub(oldReputation, _amount);
@@ -48,7 +48,7 @@ contract CelebrityStatus is CelebrityDatabase
         emit ReputationChanged(_target.id, oldReputation, newReputation);
     }
 
-    function _increasePower(Celebrity storage _target, uint _amount) internal
+    function _increasePower(Principal storage _target, uint _amount) internal
     {
         uint oldPower = _target.power;
         uint newPower = _boundedAdd(oldPower, _amount);
@@ -57,7 +57,7 @@ contract CelebrityStatus is CelebrityDatabase
         emit PowerChanged(_target.id, oldPower, newPower);
     }
 
-    function _decreasePower(Celebrity storage _target, uint _amount) internal
+    function _decreasePower(Principal storage _target, uint _amount) internal
     {
         uint oldPower = _target.power;
         uint newPower = _boundedSub(oldPower, _amount);
@@ -66,7 +66,7 @@ contract CelebrityStatus is CelebrityDatabase
         emit PowerChanged(_target.id, oldPower, newPower);
     }
     
-    function _increaseCooldownTime(Celebrity storage _target, uint _amount) internal
+    function _increaseCooldownTime(Principal storage _target, uint _amount) internal
     {
         _target.readyTime = _boundedAdd(_target.readyTime, _amount);
     }

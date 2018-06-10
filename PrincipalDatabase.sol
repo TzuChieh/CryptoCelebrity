@@ -4,12 +4,11 @@ import "./ThirdParty/Ownable.sol";
 import "./ThirdParty/ERC721/ERC721Token.sol";
 
 /*
-    Database recording attributes of celebrities. Supports basic data 
-    manipulating functions.
+    Database of principals. Supports basic data manipulating functions.
 */
-contract CelebrityDatabase is Ownable, ERC721Token
+contract PrincipalDatabase is Ownable, ERC721Token
 {
-    struct Celebrity
+    struct Principal
     {
         uint   id;
         string name;
@@ -35,23 +34,23 @@ contract CelebrityDatabase is Ownable, ERC721Token
         EYE_COLOR
     }
 
-    event CelebrityCreated(uint id, string name, uint dna);
+    event PrincipalCreated(uint id, string name, uint dna);
     
-    Celebrity[] public celebrities;
+    Principal[] public principals;
     
     constructor() 
         Ownable()
-        ERC721Token("CryptoCelebrity", "CC")
+        ERC721Token("CryptoPrincipal", "CP")
         internal
     {}
 
-    function _createCelebrity(string _name, uint _dna) internal returns (uint _id)
+    function _createPrincipal(string _name, uint _dna) internal returns (uint _id)
     {
-        _id = celebrities.length;
+        _id = principals.length;
         _mint(msg.sender, _id);
-        celebrities.push(Celebrity(_id, _name, _dna, 0, 0, now));
+        principals.push(Principal(_id, _name, _dna, 0, 0, now));
 
-        emit CelebrityCreated(_id, _name, _dna);
+        emit PrincipalCreated(_id, _name, _dna);
     }
 
     /*

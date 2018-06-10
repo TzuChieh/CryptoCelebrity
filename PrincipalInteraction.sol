@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
-import "./CelebrityStatus.sol";
+import "./PrincipalStatus.sol";
 
-contract CelebrityInteraction is CelebrityStatus
+contract PrincipalInteraction is PrincipalStatus
 {
     event beatingOccurred(uint injurerId, uint victimId);
     
@@ -10,8 +10,8 @@ contract CelebrityInteraction is CelebrityStatus
         isBossOf(msg.sender, _injurerId) 
         isReady(_injurerId)
      {
-         Celebrity storage injurer = celebrities[_injurerId];
-         Celebrity storage victim  = celebrities[_victimId];
+         Principal storage injurer = principals[_injurerId];
+         Principal storage victim  = principals[_victimId];
          
          _decreaseReputation(injurer, injurer.reputation / 2);
          _increaseCooldownTime(injurer, 1 minutes);
@@ -24,7 +24,7 @@ contract CelebrityInteraction is CelebrityStatus
         isBossOf(msg.sender, _collectorId)
         isReady(_collectorId)
     {
-        Celebrity storage collector = celebrities[_collectorId];
+        Principal storage collector = principals[_collectorId];
         
         _increaseReputation(collector, 10);
         _increaseCooldownTime(collector, 30 seconds);
