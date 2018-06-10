@@ -24,6 +24,8 @@ We recommend using Remix IDE with remixd. Remix is a browser based IDE for Solid
 6. Click on this button and you will see the shared folder show up as "localhost":
    ![button](./image/readme_remix_ide.png)
 
+For more information, please refer to [here](http://remix.readthedocs.io/en/latest/tutorial_remixd_filesystem.html).
+
 ## Team
 
 (no particular order)
