@@ -19,6 +19,12 @@ contract CelebrityDatabase is Ownable, ERC721Token
         uint   readyTime;
     }
 
+    /*
+        Supported types of DNA fragment. Each DNA fragment has 8 bits and 
+        stores information regarding to its representing type. A Celebrity's
+        DNA has 256 bits, so in theory 32 kinds of DNA fragment can exist
+        at the same time.
+    */
     enum EDnaFragment
     {
         ELEMENTAL,
@@ -48,12 +54,20 @@ contract CelebrityDatabase is Ownable, ERC721Token
         emit CelebrityCreated(_id, _name, _dna);
     }
 
+    /*
+        Given a DNA and the type of the DNA fragment, extracts and returns the 
+        DNA fragment.
+    */
     function getDnaFragment(uint _dna, EDnaFragment _type) public pure returns (uint8)
     {
         uint shiftedDna = _dna / (2 ** (uint(_type) * 8));
         return uint8(shiftedDna & 0xFF);
     }
 
+    /*
+        Injects a 8-bit sized DNA fragment into a given DNA. An enum is also
+        needed in order to specify the type of the DNA fragment.
+    */
     function getInjectedDna(uint _dna, uint8 _dnaFragment, EDnaFragment _type) public pure returns (uint _injectedDna)
     {
         uint multiplier = 2 ** (uint(_type) * 8);
@@ -61,6 +75,10 @@ contract CelebrityDatabase is Ownable, ERC721Token
         _injectedDna = clearedDna | (_dnaFragment * multiplier);
     }
 
+    /* 
+        Generates a random DNA given a string. The string served as a seed for
+        the random number generator.
+     */
     function generateRandomDna(string _string) internal pure returns (uint)
     {
         uint rand = uint(keccak256(_string));
