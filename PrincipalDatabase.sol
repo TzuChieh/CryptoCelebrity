@@ -80,7 +80,7 @@ contract PrincipalDatabase is Ownable, ERC721Token
      */
     function generateRandomDna(string _string) internal pure returns (uint)
     {
-        uint rand = uint(keccak256(_string));
+        uint rand = uint(keccak256(abi.encodePacked(_string)));
         return rand;
     }
 }
