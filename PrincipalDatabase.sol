@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
-import "./Ownable.sol";
-import "./ERC721Token.sol";
+import "./ThirdParty/Ownable.sol";       
+import "./ThirdParty/ERC721/ERC721Token.sol";
 
 /*
     Database of principals. Supports basic data manipulating functions.
