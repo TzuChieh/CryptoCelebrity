@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
-import "./ThirdParty/Ownable.sol";
-import "./ThirdParty/ERC721/ERC721Token.sol";
+import "./Ownable.sol";
+import "./ERC721Token.sol";
 
 /*
     Database of principals. Supports basic data manipulating functions.
@@ -37,6 +37,8 @@ contract PrincipalDatabase is Ownable, ERC721Token
     event PrincipalCreated(uint id, string name, uint dna);
     
     Principal[] public principals;
+    mapping (uint => address) public principalToOwner;
+    mapping (address => uint) ownerPrincipalsCount;
     
     constructor() 
         Ownable()
@@ -48,6 +50,8 @@ contract PrincipalDatabase is Ownable, ERC721Token
     {
         _id = principals.length;
         _mint(msg.sender, _id);
+        principalToOwner[_id] = msg.sender;
+        ownerPrincipalsCount[msg.sender]++;
         principals.push(Principal(_id, _name, _dna, 0, 0, now));
 
         emit PrincipalCreated(_id, _name, _dna);
@@ -73,6 +77,21 @@ contract PrincipalDatabase is Ownable, ERC721Token
         uint clearedDna = _dna & ~(0xFF * multiplier);
         _injectedDna = clearedDna | (_dnaFragment * multiplier);
     }
+    
+    /*
+        Get principals by owner address
+    */
+    function getPrincipalsByOwner(address _owner) external view returns(uint[]) {
+    uint[] memory result = new uint[](ownerPrincipalsCount[_owner]);
+    uint counter = 0;
+    for (uint i = 0; i < principals.length; i++) {
+      if (principalToOwner[i] == _owner) {
+        result[counter] = i;
+        counter++;
+      }
+    }
+    return result;
+  }
 
     /* 
         Generates a random DNA given a string. The string served as a seed for
