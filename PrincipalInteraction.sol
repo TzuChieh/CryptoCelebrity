@@ -50,6 +50,9 @@ contract PrincipalInteraction is PrincipalStatus
             _increaseCooldownTime(injurer, 3 minutes);
         }
     }
+    /*
+        random from 0~100
+    */
     function randMod(uint _modulus) internal returns(uint) {
         randNonce++;
         return uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % _modulus;
