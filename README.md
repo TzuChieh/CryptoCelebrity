@@ -1,6 +1,6 @@
 # CryptoPrincipal
 
-CryptoPrincipal is a game centered around breedable, collectible, and oh-so-adorable creatures we call CryptoPrincipal! Each cat is one-of-a-kind and 100% owned by you; it cannot be replicated, taken away, or destroyed.
+CryptoPrincipal is a game centered around breedable, collectible, and oh-so-adorable creatures we call CryptoPrincipal! Each one is one-of-a-kind and 100% owned by you; it cannot be replicated, taken away, or destroyed.
 
 ## Development Workflow
 
